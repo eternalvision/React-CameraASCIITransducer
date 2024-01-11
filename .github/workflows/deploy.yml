@@ -58,7 +58,7 @@ jobs:
                   git checkout -B dev
                   git add -f ./dist || echo "Failed to add dist"
                   git commit -m "Add dist" || echo "No changes to commit"
-                  git remote set-url origin https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/eternalvision/ReactRandomColorGrid.git
+                  git remote set-url origin https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com:eternalvision/React-CameraASCIITransducer.git
                   git push -u origin dev --force || echo "Failed to push"
 
             - name: Deploy to GitHub Pages
