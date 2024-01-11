@@ -1,0 +1,68 @@
+name: Build and Deploy
+
+on:
+    push:
+        branches:
+            - main # или ваша рабочая ветка
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "18"
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Check if ./dist exists
+              id: check-dist
+              run: |
+                  if [[ -d "dist" ]]; then
+                    echo "Dist directory exists"
+                    echo "::set-output name=exists::true"
+                  else
+                    echo "Dist directory does not exist"
+                    echo "::set-output name=exists::false"
+                  fi
+
+            - name: List directory before build
+              run: ls -la
+
+            - name: Build
+              run: npm run build
+
+            - name: List directory after build
+              run: ls -la
+
+            - name: Check Dist Directory After Build
+              run: |
+                  if [[ -d "dist" ]]; then
+                    echo "Dist directory exists after build"
+                    ls -la dist
+                  else
+                    echo "Dist directory does not exist after build"
+                    exit 1
+                  fi
+
+            - name: Push to dev branch
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git checkout -B dev
+                  git add -f ./dist || echo "Failed to add dist"
+                  git commit -m "Add dist" || echo "No changes to commit"
+                  git remote set-url origin https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/eternalvision/ReactRandomColorGrid.git
+                  git push -u origin dev --force || echo "Failed to push"
+
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+                  publish_dir: ./dist
