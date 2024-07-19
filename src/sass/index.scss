@@ -1,41 +1,41 @@
 body {
-    background-color: #1a1a1a;
+  background-color: #1a1a1a;
 }
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 #root {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    position: relative;
-    video,
-    pre {
-        position: absolute;
-    }
-    video {
-        z-index: 0;
-        opacity: 0;
-        display: none;
-    }
-    pre {
-        filter: blur(0.5px);
-        z-index: 1;
-    }
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+}
+
+video {
+  border-radius: 50px;
 }
 
 pre {
-    font-size: 2px;
-    font-weight: bolder;
-    color: #fff;
+  font-size: 2px;
+  color: #fafafa;
+}
+
+.PreFather {
+  overflow: hidden;
+  width: 640px;
+  height: 480px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
 }
